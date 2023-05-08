@@ -1,5 +1,7 @@
-package com.example.jdbc.member;
+package com.example.jdbc.order;
 
+import com.example.jdbc.member.Member;
+import com.example.jdbc.member.MemberRequest;
 import com.example.jdbc.team.Team;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -11,12 +13,12 @@ import java.sql.PreparedStatement;
 import java.util.*;
 
 @Repository
-public class MemberRepository {
+public class OrderRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final KeyHolder keyHolder;
 
-    public MemberRepository(JdbcTemplate jdbcTemplate) {
+    public OrderRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.keyHolder = new GeneratedKeyHolder();
     }

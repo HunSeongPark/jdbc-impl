@@ -16,13 +16,10 @@ public class Order {
     private OrderState state;
     private List<Product> productList;
 
-    public Order(Member member) {
-        this.member = member;
-    }
-
-    public Order(Member member, OrderState state) {
+    public Order(Long id, Member member, OrderState state, List<Product> productList) {
         this.member = member;
         this.state = state;
+        this.productList = productList;
     }
 
     public void addProduct(Product product) {

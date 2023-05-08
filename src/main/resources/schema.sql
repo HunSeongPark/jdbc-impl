@@ -25,10 +25,3 @@ CREATE TABLE orders (
     PRIMARY KEY (order_id),
     CONSTRAINT fk_orders_to_members FOREIGN KEY (member_id) REFERENCES members (member_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
-
-CREATE TABLE products (
-    product_id  bigint NOT NULL AUTO_INCREMENT,
-    order_id    bigint NOT NULL,
-    name        varchar(50) NOT NULL,
-    CONSTRAINT fk_products_to_orders FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE RESTRICT ON UPDATE RESTRICT
-);
