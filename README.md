@@ -8,3 +8,6 @@
 - JDBC API
 - Lombok
 - H2 Database
+
+## ERD
+![image](https://user-images.githubusercontent.com/71416677/236758417-02e4fd2e-a85f-4c45-9caa-0ed14f839c45.png)
