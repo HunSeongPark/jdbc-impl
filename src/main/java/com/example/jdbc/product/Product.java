@@ -1,6 +1,6 @@
-package com.example.product;
+package com.example.jdbc.product;
 
-import com.example.order.Order;
+import com.example.jdbc.order.Order;
 import lombok.Getter;
 import lombok.Setter;
 

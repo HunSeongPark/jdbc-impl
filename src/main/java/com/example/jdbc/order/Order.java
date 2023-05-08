@@ -1,7 +1,7 @@
-package com.example.order;
+package com.example.jdbc.order;
 
-import com.example.member.Member;
-import com.example.product.Product;
+import com.example.jdbc.member.Member;
+import com.example.jdbc.product.Product;
 import lombok.Getter;
 import lombok.Setter;
 

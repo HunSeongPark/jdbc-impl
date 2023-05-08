@@ -1,7 +1,7 @@
-package com.example.member;
+package com.example.jdbc.member;
 
-import com.example.order.Order;
-import com.example.team.Team;
+import com.example.jdbc.order.Order;
+import com.example.jdbc.team.Team;
 import lombok.Getter;
 import lombok.Setter;
 
