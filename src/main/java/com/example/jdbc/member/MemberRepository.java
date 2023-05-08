@@ -1,5 +1,8 @@
 package com.example.jdbc.member;
 
+import com.example.jdbc.order.Order;
+import com.example.jdbc.order.OrderService;
+import com.example.jdbc.order.OrderState;
 import com.example.jdbc.team.Team;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -8,6 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 
 @Repository
@@ -41,6 +45,7 @@ public class MemberRepository {
         List<Member> results = jdbcTemplate.query(
                 "SELECT members.member_id AS memberId, teams.team_id AS teamId, members.name AS memberName, age, teams.name AS teamName " +
                         "FROM members JOIN teams ON members.team_id = teams.team_id " +
+                        "LEFT JOIN orders ON members.member_id = orders.member_id " +
                         "WHERE members.member_id = ?",
                 rse,
                 memberId
@@ -50,10 +55,23 @@ public class MemberRepository {
 
     public List<Member> findAll() {
         return jdbcTemplate.query(
-                "SELECT members.member_id AS memberId, teams.team_id AS teamId, members.name AS memberName, age, teams.name AS teamName " +
-                        "FROM members JOIN teams ON members.team_id = teams.team_id",
+                "SELECT members.member_id AS memberId, teams.team_id AS teamId, members.name AS memberName, age, teams.name AS teamName, " +
+                        "order_id AS orderId, state AS orderState " +
+                        "FROM members JOIN teams ON members.team_id = teams.team_id " +
+                        "LEFT JOIN orders ON members.member_id = orders.member_id",
                 rse
         );
+    }
+
+    public boolean exists(Long memberId) {
+        return !jdbcTemplate.query(
+                "SELECT 1 FROM members WHERE member_id = ?",
+                (rs, rowNum) -> {
+                    if (rs.next()) return true;
+                    return false;
+                },
+                memberId
+        ).isEmpty();
     }
 
     // member - team 1:1
@@ -63,11 +81,19 @@ public class MemberRepository {
         while (rs.next()) {
             long mId = rs.getLong("memberId");
             long teamId = rs.getLong("teamId");
+            long orderId = rs.getLong("orderId");
+            OrderState orderState = null;
+            if (orderId != 0) orderState = OrderState.valueOf(rs.getString("orderState"));
             String memberName = rs.getString("memberName");
             int age = rs.getInt("age");
             String teamName = rs.getString("teamName");
             Team team = new Team(teamId, teamName);
-            memberById.put(mId, new Member(mId, team, memberName, age));
+            Member member = memberById.get(mId);
+            if (member == null) {
+                member = new Member(mId, team, memberName, age);
+                memberById.put(member.getId(), member);
+            }
+            if (orderState != null) member.addOrder(new Order(orderId, null, orderState));
         }
         return new ArrayList<>(memberById.values());
     };

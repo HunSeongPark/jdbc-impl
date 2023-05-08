@@ -5,6 +5,7 @@ import com.example.jdbc.team.Team;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,6 +23,7 @@ public class Member {
         this.team = team;
         this.name = name;
         this.age = age;
+        this.orderList = new ArrayList<>();
     }
 
     public void addOrder(Order order) {
