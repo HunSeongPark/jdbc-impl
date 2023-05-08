@@ -10,5 +10,6 @@
 - H2 Database
 
 ## ERD
-![image](https://user-images.githubusercontent.com/71416677/236829036-9c9cb428-7ae3-4ec7-b68d-1bce8effe7fe.png)
+![image](https://user-images.githubusercontent.com/71416677/236829208-aec664e9-d05a-40db-9cbe-e5a0b5980ad7.png)
+
 
