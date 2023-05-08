@@ -1,21 +1,38 @@
 package com.example.jdbc.team;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Repository
 public class TeamRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final KeyHolder keyHolder;
 
-    public void save(String name) {
-        jdbcTemplate.update("INSERT INTO teams(name) values(?)", name);
+    public TeamRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.keyHolder = new GeneratedKeyHolder();
+    }
+
+    public Long save(String name) {
+        jdbcTemplate.update(con -> {
+            PreparedStatement pstmt = con.prepareStatement(
+                    "INSERT INTO teams(name) values (?)",
+                    new String[]{"team_id"}
+            );
+            pstmt.setString(1, name);
+            return pstmt;
+        }, keyHolder);
+
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     public Optional<Team> findById(Long teamId) {

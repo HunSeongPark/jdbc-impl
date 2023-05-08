@@ -14,9 +14,8 @@ public class TeamController {
     private final TeamService teamService;
 
     @PostMapping
-    public ResponseEntity<Void> createTeam(@RequestParam String name) {
-        teamService.createTeam(name);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Long> createTeam(@RequestParam String name) {
+        return ResponseEntity.ok(teamService.createTeam(name));
     }
 
     @GetMapping("/{teamId}")

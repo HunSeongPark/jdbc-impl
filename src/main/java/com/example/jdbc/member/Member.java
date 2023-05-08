@@ -17,7 +17,8 @@ public class Member {
     private int age;
     private List<Order> orderList;
 
-    public Member(Team team, String name, int age) {
+    public Member(Long id, Team team, String name, int age) {
+        this.id = id;
         this.team = team;
         this.name = name;
         this.age = age;
